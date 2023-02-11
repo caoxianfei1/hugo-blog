@@ -1,7 +1,43 @@
-name: GitHub Pages
+# name: GitHub Pages
+
+# on:
+#   push:
+#   workflow_dispatch:
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-22.04
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#           submodules: true  # Fetch Hugo themes (true OR recursive)
+#           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+#       - name: Setup Hugo
+#         uses: peaceiris/actions-hugo@v2
+#         with:
+#           hugo-version: '0.91.2'
+#           # extended: true
+
+#       - name: Build
+#         run: hugo --minify
+
+#       - name: Deploy
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           PERSONAL_TOKEN: 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
+#           EXTERNAL_REPOSITORY: caoxianfei1/caoxianfei1.github.io
+#           PUBLISH_BRANCH: master
+#           PUBLISH_DIR: ./public
+#           commit_message: ${{ github.event.head_commit.message }}
+
+name: github pages
 
 on:
   push:
+    branches:
+      - master  # Set a branch that will trigger a deployment
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -10,13 +46,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: false  # Fetch Hugo themes (true OR recursive)
+          submodules: true  # Fetch Hugo themes (true OR recursive)
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: '0.91.2'
+          hugo-version: 'latest'
           # extended: true
 
       - name: Build
@@ -24,9 +60,7 @@ jobs:
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
         with:
-          PERSONAL_TOKEN: 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
-          EXTERNAL_REPOSITORY: caoxianfei1/caoxianfei1.github.io
-          PUBLISH_BRANCH: master
-          PUBLISH_DIR: ./public
-          commit_message: ${{ github.event.head_commit.message }}
+          github_token: ${{ secrets.GITHUB_TOKEN }} # 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
+          publish_dir: ./public
