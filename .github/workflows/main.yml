@@ -60,7 +60,7 @@ jobs:
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
+        # if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }} # 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
           EXTERNAL_REPOSITORY: caoxianfei1/caoxianfei1.github.io
