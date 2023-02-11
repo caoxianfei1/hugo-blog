@@ -27,7 +27,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          PERSONAL_TOKEN: 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
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EXTERNAL_REPOSITORY: caoxianfei1/caoxianfei1.github.io
           PUBLISH_BRANCH: master
           PUBLISH_DIR: ./public
