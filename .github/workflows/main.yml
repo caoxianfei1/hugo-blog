@@ -64,6 +64,6 @@ jobs:
         with:
           PERSONAL_TOKEN: ${{ secrets.GH_PAGE_ACTION_TOKEN }}
           # deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          EXTERNAL_REPOSITORY: caoxianfei1/caoxianfei1.github.io
+          EXTERNAL_REPOSITORY: git@github.com:caoxianfei1/caoxianfei1.github.io.git
           PUBLISH_BRANCH: master
           publish_dir: ./public
