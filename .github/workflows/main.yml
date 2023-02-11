@@ -57,6 +57,9 @@ jobs:
 
       - name: Build
         run: hugo --minify
+      - name: Touch README file
+        run: |
+          echo "caoxianfei1.github.io" > .public/README.md
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
