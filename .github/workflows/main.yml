@@ -62,7 +62,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         # if: github.ref == 'refs/heads/main'
         with:
-          PERSONAL_TOKEN: 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
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           EXTERNAL_REPOSITORY: caoxianfei1/caoxianfei1.github.io
           PUBLISH_BRANCH: master
           publish_dir: ./public
