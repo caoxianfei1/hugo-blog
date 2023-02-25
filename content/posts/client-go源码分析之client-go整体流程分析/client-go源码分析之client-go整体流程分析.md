@@ -60,7 +60,7 @@ seo:
 ---
 Client-go的整体流程如下图所示：
 
-<img src="/Users/cxf/Desktop/写作/图片/client-go-informer.png" alt="client-go-informer" style="zoom:67%;" />
+![client-go-informer](https://user-images.githubusercontent.com/54139479/221352238-d6796902-ec0d-413d-b5f4-32d5674a55d2.png)
 
 首先是从上面图中可以看到，有几个比较重要的组件：Reflector、Informer、Indexer。
 
@@ -349,7 +349,7 @@ func (f *DeltaFIFO) queueActionLocked(actionType DeltaType, obj interface{}) err
 
 DeltaFIFO中保存的内容应该是这样的：
 
-<img src="/Users/cxf/Library/Application Support/typora-user-images/image-20221008140948618.png" alt="image-20221008140948618" style="zoom:50%;" />
+<img width="676" alt="image-20221008140948618" src="https://user-images.githubusercontent.com/54139479/221352291-a952f8d5-6204-4bb0-8448-4e4216ed421e.png">
 
 从上面的图中也可以看到，DeltaFIFO对象的queue成员中保存的是resource对应的key，而items成员其实是一个map结构： `map[string]Deltas`, key对应的就是queue中的对象的key,Deltas就是 `[]Delta` 数组，保存的是该资源对象以及该资源对象的事件event
 
@@ -707,7 +707,6 @@ func (p *processorListener) run() {
 
 下面的一个图很好的表示了处理流程：
 
-![image-20221008152847963](/Users/cxf/Library/Application Support/typora-user-images/image-20221008152847963.png)
-
+<img width="940" alt="image-20221008152847963" src="https://user-images.githubusercontent.com/54139479/221352344-7464036d-2263-4928-82b6-d262e6194163.png">
 
 > **如果 event 处理较慢，则会导致pendingNotifications 积压，event 处理的延迟增大.**
