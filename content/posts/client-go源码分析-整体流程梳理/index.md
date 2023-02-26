@@ -1,8 +1,8 @@
 ---
-title: "Client Go源码分析之client Go整体流程分析"
+title: "Client Go整体流程梳理"
 subtitle: ""
-date: 2023-02-20T19:53:23+08:00
-lastmod: 2023-02-20T19:53:23+08:00
+date: 2023-02-26T13:22:10+08:00
+lastmod: 2023-02-26T13:22:10+08:00
 draft: true
 author: ""
 authorLink: ""
@@ -10,8 +10,8 @@ description: ""
 license: ""
 images: []
 
-tags: [client-go源码]
-categories: [源码分析, client-go]
+tags: [client-go]
+categories: [client-go,源码]
 
 featuredImage: ""
 featuredImagePreview: ""
