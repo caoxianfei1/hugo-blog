@@ -73,16 +73,21 @@ seo:
 
 ### 2. iptables设置
 
-更改 `net.bridge.bridge-nf-call-iptables` 的值为1.（Ubuntu 20.04默认为1，可以不用做）
+确保 `br_netfilter` 模块被加载。这一操作可以通过运行 `lsmod | grep br_netfilter` 来完成。若要显式加载该模块，可执行 `sudo modprobe br_netfilter`。
 
-   ```bash
-   sudo cat >>/etc/sysctl.d/k8s.conf<< EOF
-   net.bridge.bridge-nf-call-ip6tables = 1
-   net.bridge.bridge-nf-call-iptables = 1
-   EOF
-   
-   sudo sysctl --system
-   ```
+为了让你的 Linux 节点上的 iptables 能够正确地查看桥接流量，你需要确保在你的 `sysctl` 配置中将 `net.bridge.bridge-nf-call-iptables` 设置为 1。例如：
+
+```shell
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sudo sysctl --system
+```
 
 ### 3. 安装Docker
 
@@ -106,11 +111,14 @@ sudo apt-get update && sudo apt -y upgrade
 sudo apt-get install -y ca-certificates curl software-properties-common apt-transport-https
 
 sudo curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
+# 如果上述命令提示失败的话，使用下面的命令代替
+# curl -s https://gitee.com/thepoy/k8s/raw/master/apt-key.gpg | sudo apt-key add -
 
 sudo cat >>/etc/apt/sources.list.d/kubernetes.list <<EOF 
 deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
 EOF
 
+# 更新apt包索引，用于安装kubelet、kubeadm和kubectl
 sudo apt-get update
 ```
 
@@ -122,6 +130,7 @@ sudo apt-get update
   
   # 安装指定版本的Kubeadm、kubelet、kubectl
   sudo apt-get install -y kubelet=1.20.15-00 kubeadm=1.20.15-00 kubectl=1.20.15-00
+  # 如果上述命令报错的话，添加 `--allow-unauthenticated` 选项
   
   systemctl enable kubelet
   systemctl enable docker
@@ -132,7 +141,6 @@ sudo apt-get update
 #### 5.1 查看 kubeadm init 时所需要的组件镜像列表
 
   ```bash
-  # ：
   kubeadm config images list
   # 输出类似如下信息，这些代表是kubeadm要下载安装的组件;
   I1025 15:01:13.041337  340088 version.go:254] remote version is much newer: v1.25.3; falling back to: stable-1.20
@@ -161,6 +169,8 @@ sudo apt-get update
   chmod +x pull-k8s-images.sh
   ./pull-k8s-images.sh
   ```
+
+> 上述步骤1-5需要在所有的节点执行，下面的步骤只需要在Master节点进行执行。
 
 ### 6. 安装k8s集群（kubeadm init）
 
